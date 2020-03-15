@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
 import { getMetricMetaInfo } from '../utils/helpers'
+import Slider from '../components/Slider'
+import Steppers from '../components/Steppers'
 
 export default class AddEntry extends Component{
     state = {
@@ -50,10 +52,48 @@ export default class AddEntry extends Component{
     }
 
     render(){
-        console.log('getMetricMetaInfo("bike").displayName', getMetricMetaInfo("bike"))
+
+        const metaInfo = getMetricMetaInfo()
+
+        console.log('metaInfo', metaInfo)
+
         return(
             <View>
-                {getMetricMetaInfo("bike").getIcon()}
+                {Object.keys(metaInfo).map(
+                    (key) => {
+                        
+                        console.log('this.state', this.state)
+                        const { getIcon, type, ...rest } = metaInfo[key]
+                        
+                        const value = this.state[key]
+                        console.log('value', value)
+
+                        return (
+                            <View key={key}>
+                                {getIcon()}
+                                {
+                                    type === 'slider'
+                                    ? <Slider
+                                        value={value}
+                                        onChange={
+                                            (value) => this.slide(key, value)
+                                        }
+                                        {...rest}
+                                       /> 
+                                    : <Steppers 
+                                        value={value}
+                                        onIncrement={
+                                            () => this.increment(key)
+                                        }
+                                        onDecrement={
+                                            () => this.decrement(key)
+                                        }
+                                        />
+                                }
+                            </View>
+                        )
+                    }
+                )}
             </View>
         )
     }

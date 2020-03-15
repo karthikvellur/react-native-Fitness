@@ -139,11 +139,10 @@ export function isBetween (num, x, y) {
       },
     }
 
-    console.log('info[metric]', info[metric])
-
-    if(metric === 'undefined')
-      return info
-    else
+    if(metric){
       return info[metric]
+    }
+
+    return info
 
   }
