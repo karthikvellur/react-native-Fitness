@@ -5,8 +5,8 @@ import {
     Text
  } from 'react-native'
 import { getMetricMetaInfo, timeToString } from '../utils/helpers'
-import Slider from '../components/Slider'
-import Steppers from '../components/Steppers'
+import CustomSlider from './CustomSlider'
+import CustomSteppers from './CustomSteppers'
 import DateHeader from '../components/DateHeader';
 
 function SubmitBtn( { onPress } ){
@@ -119,14 +119,14 @@ export default class AddEntry extends Component{
                                 {getIcon()}
                                 {
                                     type === 'slider'
-                                    ? <Slider
+                                    ? <CustomSlider
                                         value={value}
                                         onChange={
                                             (value) => this.slide(key, value)
                                         }
                                         {...rest}
                                        /> 
-                                    : <Steppers 
+                                    : <CustomSteppers 
                                         value={value}
                                         onIncrement={
                                             () => this.increment(key)
