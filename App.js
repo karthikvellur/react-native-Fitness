@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import { createStore  } from 'redux'
+import { Provider } from 'react-redux'
+import reducer from './reducers'
 import { 
   View,
   StyleSheet
@@ -10,9 +13,11 @@ export default class App extends Component {
 
   render(){
     return (
-      <View>
-          <AddEntry/>
-      </View>
+      <Provider store={createStore(reducer)}>
+        <View>
+            <AddEntry/>
+        </View>
+      </Provider>
     )
   }
 }
