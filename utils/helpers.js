@@ -64,7 +64,6 @@ export function isBetween (num, x, y) {
   )
 
   export function getMetricMetaInfo(metric){
-    console.log('metric', metric)
     const info = {
       run: {
         displayName: 'Run',

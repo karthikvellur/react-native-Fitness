@@ -120,9 +120,6 @@ class AddEntry extends Component{
 
         const metaInfo = getMetricMetaInfo()
 
-        console.log('this.props', this.props)
-        console.log('this.props.alreadyLogged', this.props.alreadyLogged)
-
         if(this.props.alreadyLogged){
             return (
                 <View style={styles.center}>
@@ -154,7 +151,6 @@ class AddEntry extends Component{
                         const { getIcon, type, ...rest } = metaInfo[key]
                         
                         const value = this.state[key]
-                        console.log('value', value)
 
                         return (
                             <View key={key} style={styles.row}>
@@ -176,6 +172,7 @@ class AddEntry extends Component{
                                         onDecrement={
                                             () => this.decrement(key)
                                         }
+                                        {...rest}
                                         />
                                 }
                             </View>
@@ -236,8 +233,6 @@ const styles = StyleSheet.create(
 
 function mapStateToProps(state){
     const key = timeToString()
-
-    console.log('mapState state', state)
 
     return {
         alreadyLogged: state[key] && typeof state[key].today === 'undefined'
