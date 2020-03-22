@@ -4,13 +4,15 @@ import {
     TouchableOpacity,
     Text
  } from 'react-native'
-import { getMetricMetaInfo, timeToString } from '../utils/helpers'
+import { getMetricMetaInfo, timeToString, getDailyReminderValue } from '../utils/helpers'
 import CustomSlider from './CustomSlider'
 import CustomSteppers from './CustomSteppers'
 import DateHeader from '../components/DateHeader';
 import TextButton from './TextButton'
 import { Ionicons } from '@expo/vector-icons'
 import { submitEntry,  removeEntry } from '../utils/api'
+import { connect } from 'react-redux'
+import { addEntry } from '../actions'
 
 function SubmitBtn( { onPress } ){
     return (
@@ -21,7 +23,7 @@ function SubmitBtn( { onPress } ){
 
 }
 
-export default class AddEntry extends Component{
+class AddEntry extends Component{
     state = {
         run: 0,
         bike: 0,
@@ -73,7 +75,9 @@ export default class AddEntry extends Component{
         const key = timeToString()
         const entry = this.state
 
-        // update Redux
+        this.props.dispatch(addEntry(
+            {[key]: entry}
+        ))
 
         this.setState(
             () => (
@@ -97,7 +101,10 @@ export default class AddEntry extends Component{
     reset = () => {
         const key = timeToString()
 
-        // Update Redux
+        this.props.dispatch(addEntry(
+                {[key]: getDailyReminderValue()}
+            )
+        )
 
         // Route to Home
 
@@ -107,6 +114,9 @@ export default class AddEntry extends Component{
     render(){
 
         const metaInfo = getMetricMetaInfo()
+
+        console.log('this.props', this.props)
+        console.log('this.props.alreadyLogged', this.props.alreadyLogged)
 
         if(this.props.alreadyLogged){
             return (
@@ -172,3 +182,15 @@ export default class AddEntry extends Component{
         )
     }
 }
+
+function mapStateToProps(state){
+    const key = timeToString()
+
+    console.log('mapState state', state)
+
+    return {
+        alreadyLogged: state[key] && state[key].today === 'undefined'
+    }
+}
+
+export default connect(mapStateToProps)(AddEntry)
