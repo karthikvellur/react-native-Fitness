@@ -240,7 +240,7 @@ function mapStateToProps(state){
     console.log('mapState state', state)
 
     return {
-        alreadyLogged: state[key] && state[key].today === 'undefined'
+        alreadyLogged: state[key] && typeof state[key].today === 'undefined'
     }
 }
 
