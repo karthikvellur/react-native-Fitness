@@ -141,10 +141,6 @@ class AddEntry extends Component{
                     (new Date()).toLocaleDateString()
                 }/>
 
-                <Text>
-                    {JSON.stringify(this.state)}
-                </Text>
-
                 {Object.keys(metaInfo).map(
                     (key) => {
                         
