@@ -23,13 +23,13 @@ export default function CustomSteppers({max, unit, step, value, onIncrement, onD
             :
                 <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity 
-                        style={[styles.iosBtn, {borderTopRightRadius: 0, borderBottomRightRadius: 0}]}
+                        style={[styles.androidBtn, {borderTopRightRadius: 0, borderBottomRightRadius: 0}]}
                         onPress={onDecrement}>
                         <FontAwesome name='minus' size={30} color={'white'}/>
                     </TouchableOpacity>
 
                     <TouchableOpacity 
-                        style={[styles.iosBtn, {borderTopLeftRadius: 0, borderBottomRightRadius: 0}]}
+                        style={[styles.androidBtn, {borderTopLeftRadius: 0, borderBottomRightRadius: 0}]}
                         onPress={onIncrement}>
                         <FontAwesome name='plus' size={30} color={'white'}/>
                     </TouchableOpacity>
