@@ -8,9 +8,9 @@ import reducer from './reducers'
 import History from './components/History'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { purple, white } from './utils/colors'
-import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
+import { createMaterialTopTabNavigator, createBottomTabNavigator } from 'react-navigation-tabs';
 import { createAppContainer } from 'react-navigation';
-import { Constants } from 'expo'
+import Constants from 'expo-constants'
 
 function CustomStatusBar({ backgroundColor, ...props}){
     return (
@@ -20,41 +20,48 @@ function CustomStatusBar({ backgroundColor, ...props}){
     )
 }
 
-const TabNavigator = createMaterialTopTabNavigator(
+const navigationOptions = {
+  navigationOptions: ({ navigation }) => ({
+    tabBarIcon: ({ tintColor }) => {
+      const { routeName } = navigation.state;
+      return routeName === 'History' ? (
+        <Ionicons name='ios-bookmarks' size={30} color={tintColor} />
+      ) : (
+        <FontAwesome name="plus-square" size={30} color={tintColor} />
+      )
+    },
+    header: null,
+  }),
+  tabBarOptions: {
+    showIcon: true,
+    activeTintColor: Platform.OS === 'ios' ? purple : white,
+    style: {
+      height: 66,
+      backgroundColor: Platform.OS === 'ios' ? white : purple,
+      shadowColor: 'rgba(0, 0, 0, 0.24)',
+      shadowOffset: {
+        width: 0,
+        height: 3,
+      },
+      shadowRadius: 6,
+      shadowOpacity: 1,
+    },
+  },
+}
+
+const TabNavigator = Platform.OS === 'ios' ? createMaterialTopTabNavigator(
   {
     History: History,
     AddEntry: AddEntry,
   },
+  navigationOptions
+): createBottomTabNavigator(
   {
-    navigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ tintColor }) => {
-        const { routeName } = navigation.state;
-        // You can return any component that you like here! We usually use an
-        // icon component from react-native-vector-icons
-        return routeName === 'History' ? (
-          <Ionicons name="ios-bookmarks" size={30} color={tintColor} />
-        ) : (
-          <FontAwesome name="plus-square" size={30} color={tintColor} />
-        );
-      },
-    }),
-    tabBarOptions: {
-      showIcon: true,
-      activeTintColor: Platform.OS === 'ios' ? purple : white,
-      style: {
-        height: 66,
-        backgroundColor: Platform.OS === 'ios' ? white : purple,
-        shadowColor: 'rgba(0, 0, 0, 0.24)',
-        shadowOffset: {
-          width: 0,
-          height: 3,
-        },
-        shadowRadius: 6,
-        shadowOpacity: 1,
-      },
-    },
-  }
-);
+    History: History,
+    AddEntry: AddEntry,
+  },
+  navigationOptions
+)
 
 const Tabs = createAppContainer(TabNavigator)
 
